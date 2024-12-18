@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
-const Navbar = () => {
+const Navbar = ({ isAuthenticated, handleLogout }) => {
   const [query, setQuery] = useState("");
   const [filteredResults, setFilteredResults] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -36,6 +37,11 @@ const Navbar = () => {
     }
   }, [query, products]);
 
+  const handleLogoutClick = () => {
+    handleLogout();
+    navigate("/login"); // Redirige vers login après la déconnexion
+  };
+
   const excludedRoutes = ["/login", "/register"];
 
   return (
@@ -51,7 +57,7 @@ const Navbar = () => {
               placeholder="Search..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="p-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="p-2 w-96 rounded-full border-2 border-gray-300 focus:outline-none focus:ring-2"
             />
             {query && filteredResults.length > 0 && (
               <div className="absolute top-12 left-0 w-full bg-white shadow-lg rounded-lg mt-2 z-10 max-h-48 overflow-auto">
@@ -74,12 +80,26 @@ const Navbar = () => {
           </div>
         )}
         <div className="flex space-x-4">
-          <a href="/" className="text-white hover:text-gray-200 transition">
+          <Link to="/" className="text-white hover:text-gray-200 transition">
             Home
-          </a>
-          <a href="/login" className="text-white hover:text-gray-200 transition">
-            Login
-          </a>
+          </Link>
+          {isAuthenticated ? (
+            <button
+              onClick={handleLogoutClick}
+              className="text-white hover:text-gray-200 transition"
+            >
+              Logout
+            </button>
+          ) : (
+            <>
+              <Link to="/login" className="text-white hover:text-gray-200 transition">
+                Login
+              </Link>
+              <Link to="/register" className="text-white hover:text-gray-200 transition">
+                Register
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

@@ -32,13 +32,13 @@ const ProductList = () => {
         {products.map((product) => (
           <div
             key={product.id}
-            className="border rounded-lg shadow-lg overflow-hidden bg-pink-100"
+            className="group border rounded-lg shadow-lg overflow-hidden bg-pink-100 transition-transform transform hover:scale-105"
           >
             {product.image_url ? (
               <img
                 src={product.image_url}
                 alt={product.name}
-                className="w-full h-48 object-cover"
+                className="w-full h-48 object-cover group-hover:opacity-90 transition-opacity"
               />
             ) : (
               <div className="w-full h-48 flex items-center justify-center bg-pink-400">
@@ -46,7 +46,9 @@ const ProductList = () => {
               </div>
             )}
             <div className="p-4">
-              <h2 className="text-lg font-semibold mb-2">{product.name}</h2>
+              <h2 className="text-lg font-semibold mb-2 group-hover:text-pink-500 transition-colors">
+                {product.name}
+              </h2>
               <p className="text-gray-600 text-sm mb-4">{product.description}</p>
               <div className="text-xl font-bold text-gray-800">${product.price.toFixed(2)}</div>
             </div>
