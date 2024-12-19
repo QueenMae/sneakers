@@ -32,7 +32,6 @@ const Login = () => {
       const data = await response.json();
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      // Après une connexion réussie, redirige vers la page d'accueil
       navigate("/");
 
     } catch (error) {
